@@ -12,6 +12,9 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import fr.frivec.api.json.GsonManager;
 import fr.frivec.plugin.commands.DevCommand;
+import fr.frivec.plugin.commands.jail.JailCommand;
+import fr.frivec.plugin.commands.jail.RemoveJailCommand;
+import fr.frivec.plugin.commands.jail.SetJailCommand;
 import fr.frivec.plugin.jail.Jail;
 import fr.frivec.plugin.listeners.player.JailListener;
 import fr.frivec.plugin.listeners.player.PlayerJoinListener;
@@ -66,6 +69,9 @@ public class BlackFlag extends JavaPlugin {
 		
 		//Commands
 		this.getCommand("dev").setExecutor(new DevCommand());
+		this.getCommand("setjail").setExecutor(new SetJailCommand());
+		this.getCommand("removejail").setExecutor(new RemoveJailCommand());
+		this.getCommand("jail").setExecutor(new JailCommand());
 		
 		//Listeners
 		registerListener(new PlayerJoinListener());

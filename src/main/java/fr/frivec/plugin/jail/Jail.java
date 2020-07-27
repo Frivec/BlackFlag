@@ -21,11 +21,11 @@ public class Jail {
 	public transient static Set<Jail> jails = new HashSet<>();
 	private transient static Path folder = Paths.get(BlackFlag.getInstance().getDataFolder() + "/Jails/");
 	
-	private int id;
+	private String id;
 	private double x, y, z;
 	private transient Path file;
 	
-	public Jail(final Location location, final int id) {
+	public Jail(final Location location, final String id) {
 		
 		this.id = id;
 		this.x = location.getX();
@@ -39,6 +39,8 @@ public class Jail {
 	}
 	
 	public void save() throws IOException {
+		
+		this.file = Paths.get(folder + "/" + this.id + ".json");
 		
 		final String json = BlackFlag.getInstance().getJson().serializeObject(this);
 		
@@ -57,6 +59,8 @@ public class Jail {
 	}
 	
 	public void delete() throws IOException {
+		
+		this.file = Paths.get(folder + "/" + this.id + ".json");
 		
 		Files.delete(this.file);
 		
@@ -97,11 +101,11 @@ public class Jail {
 		
 	}
 	
-	public int getId() {
+	public String getId() {
 		return id;
 	}
 	
-	public void setId(int id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 	

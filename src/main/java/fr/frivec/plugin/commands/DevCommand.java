@@ -22,7 +22,7 @@ public class DevCommand implements CommandExecutor {
 				
 				if(args[0].equalsIgnoreCase("createjail")) {
 					
-					final Jail jail = new Jail(player.getLocation(), 1);
+					final Jail jail = new Jail(player.getLocation(), "1");
 					
 					player.sendMessage("§aCreated new jail: " + jail.getId());
 					
