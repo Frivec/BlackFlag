@@ -5,11 +5,13 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 import org.bukkit.World;
+import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import fr.frivec.api.json.GsonManager;
 import fr.frivec.plugin.commands.DevCommand;
 import fr.frivec.plugin.jail.Jail;
+import fr.frivec.plugin.listeners.player.PlayerJoinListener;
 
 public class BlackFlag extends JavaPlugin {
 	
@@ -40,7 +42,9 @@ public class BlackFlag extends JavaPlugin {
 				
 				Files.createDirectory(Paths.get(this.getDataFolder().toPath() + "/Jails/"));
 			
-			log("Created folders !");
+			if(Files.notExists(Paths.get(this.getDataFolder().toPath() + "/Players/")))
+				
+				Files.createDirectory(Paths.get(this.getDataFolder().toPath() + "/Players/"));
 			
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -54,6 +58,9 @@ public class BlackFlag extends JavaPlugin {
 		
 		//Commands
 		this.getCommand("dev").setExecutor(new DevCommand());
+		
+		//Listeners
+		registerListener(new PlayerJoinListener());
 		
 		super.onEnable();
 	}
@@ -76,6 +83,12 @@ public class BlackFlag extends JavaPlugin {
 	
 	public World getJailWorld() {
 		return jailWorld;
+	}
+	
+	private void registerListener(final Listener listener) {
+		
+		this.getServer().getPluginManager().registerEvents(listener, this);
+		
 	}
 	
 	public static void log(final String message) {
