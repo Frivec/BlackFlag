@@ -13,6 +13,7 @@ import java.util.Set;
 import org.bukkit.entity.Player;
 
 import fr.frivec.BlackFlag;
+import fr.frivec.plugin.jail.Jail;
 import fr.frivec.plugin.jail.JailObjective;
 
 import static fr.frivec.BlackFlag.log;
@@ -23,6 +24,7 @@ public class BFPlayer {
 	public transient static Set<BFPlayer> players = new HashSet<>();
 	
 	private String name;
+	private Jail jail;
 	private boolean inJail, wasInjail;
 	private int blocksBreaked;
 	private JailObjective objective;
@@ -133,6 +135,22 @@ public class BFPlayer {
 	
 	public int getBlocksBreaked() {
 		return blocksBreaked;
+	}
+	
+	public JailObjective getObjective() {
+		return objective;
+	}
+	
+	public void setObjective(JailObjective objective) {
+		this.objective = objective;
+	}
+	
+	public Jail getJail() {
+		return jail;
+	}
+	
+	public void setJail(Jail jail) {
+		this.jail = jail;
 	}
 	
 }

@@ -11,6 +11,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 
 import fr.frivec.BlackFlag;
+import fr.frivec.api.packets.ActionBar;
 import fr.frivec.plugin.player.BFPlayer;
 
 public class JailListener implements Listener {
@@ -40,13 +41,25 @@ public class JailListener implements Listener {
 		final Player player = event.getPlayer();
 		final BFPlayer bfPlayer = BlackFlag.getPlayer(player);
 		final Block block = event.getBlock();
-		final Material type = block.getType(); 
+		final Material type = block.getType();
 		
+		if(!bfPlayer.isInJail())
+			
+			return;
+		
+		if(type.equals(Material.OBSIDIAN)) {
+			
+			event.setCancelled(true);
+		
+			return;
+		
+		}
+			
 		event.setDropItems(false);
 		
-		
-		
 		bfPlayer.setBlocksBreaked(bfPlayer.getBlocksBreaked() + 1);
+		
+		new ActionBar("§aVous avez miné §b" + bfPlayer.getBlocksBreaked() + "§7/§b" + bfPlayer.getObjective().getNumberOfStack(), 20, 10, 20).send(player);
 		
 		Bukkit.getScheduler().scheduleSyncDelayedTask(BlackFlag.getInstance(), new Runnable() {
 			
@@ -57,7 +70,7 @@ public class JailListener implements Listener {
 				
 			}
 			
-		}, 20 * 5);
+		}, 20 * 30);
 		
 	}
 
