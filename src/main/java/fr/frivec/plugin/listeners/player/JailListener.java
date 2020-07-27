@@ -4,7 +4,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.entity.FallingBlock;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -12,6 +11,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 
 import fr.frivec.BlackFlag;
+import fr.frivec.plugin.player.BFPlayer;
 
 public class JailListener implements Listener {
 	
@@ -38,11 +38,15 @@ public class JailListener implements Listener {
 	public void onBreakBlock(final BlockBreakEvent event) {
 		
 		final Player player = event.getPlayer();
+		final BFPlayer bfPlayer = BlackFlag.getPlayer(player);
 		final Block block = event.getBlock();
 		final Material type = block.getType(); 
 		
-		player.sendMessage("§atarget event: " + block.getType());
 		event.setDropItems(false);
+		
+		
+		
+		bfPlayer.setBlocksBreaked(bfPlayer.getBlocksBreaked() + 1);
 		
 		Bukkit.getScheduler().scheduleSyncDelayedTask(BlackFlag.getInstance(), new Runnable() {
 			
@@ -50,23 +54,6 @@ public class JailListener implements Listener {
 			public void run() {
 				
 				block.setType(type);
-				final FallingBlock fallingBlock = block.getWorld().spawnFallingBlock(block.getLocation().clone().add(0, 20, 0), block.getBlockData());
-				block.setType(Material.AIR);
-				
-				fallingBlock.setDropItem(false);
-				
-				Bukkit.getScheduler().scheduleSyncDelayedTask(BlackFlag.getInstance(), new Runnable() {
-					
-					@Override
-					public void run() {
-						
-						player.sendMessage("§aVelocity of fBlock: " + fallingBlock.getVelocity().getY());	
-						
-					}
-					
-				}, 20l);
-				
-				player.sendMessage("§aSpawn new block: " + block.getType() + " |");
 				
 			}
 			

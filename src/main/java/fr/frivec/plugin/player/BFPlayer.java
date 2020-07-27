@@ -13,6 +13,7 @@ import java.util.Set;
 import org.bukkit.entity.Player;
 
 import fr.frivec.BlackFlag;
+import fr.frivec.plugin.jail.JailObjective;
 
 import static fr.frivec.BlackFlag.log;
 
@@ -23,6 +24,8 @@ public class BFPlayer {
 	
 	private String name;
 	private boolean inJail, wasInjail;
+	private int blocksBreaked;
+	private JailObjective objective;
 	
 	private transient Path file;
 	
@@ -124,4 +127,12 @@ public class BFPlayer {
 		this.wasInjail = wasInjail;
 	}
 
+	public void setBlocksBreaked(int blocksBreaked) {
+		this.blocksBreaked = blocksBreaked;
+	}
+	
+	public int getBlocksBreaked() {
+		return blocksBreaked;
+	}
+	
 }
