@@ -1,10 +1,14 @@
 package fr.frivec.plugin.player;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.bukkit.entity.Player;
 
@@ -15,6 +19,7 @@ import static fr.frivec.BlackFlag.log;
 public class BFPlayer {
 	
 	private transient static Path folder = Paths.get(BlackFlag.getInstance().getDataFolder() + "/Players/");
+	public transient static Set<BFPlayer> players = new HashSet<>();
 	
 	private String name;
 	private boolean inJail, wasInjail;
@@ -31,19 +36,67 @@ public class BFPlayer {
 		
 	}
 	
-	public void save() throws IOException {
+	public static BFPlayer loadPlayer(final Player player) {
 		
-		if(Files.notExists(this.file))
+		try (final DirectoryStream<Path> stream = Files.newDirectoryStream(folder)) {
 			
-			Files.createFile(this.file);
+			for(Path files : stream) {
+				
+				if(!Files.isDirectory(files)) {
+					
+					String fileName = files.getFileName().toString();
+					
+					fileName = fileName.replace(".json", "");
+					
+					if(fileName.equals(player.getName())) {
+						
+						final BufferedReader reader = Files.newBufferedReader(files);
+						final StringBuilder json = new StringBuilder();
+						
+						String line = null;
+						
+						while((line = reader.readLine()) != null)
+							
+							json.append(line);
+						
+						reader.close();
+						stream.close();
+						
+						return (BFPlayer) BlackFlag.getInstance().getJson().deSeralizeJson(json.toString(), BFPlayer.class);
+								
+					}
+					
+				}
+				
+			}
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		
-		final BufferedWriter writer = Files.newBufferedWriter(this.file);
+		return null;
 		
-		writer.write(BlackFlag.getInstance().getJson().serializeObject(this));
-		writer.flush();
-		writer.close();
+	}
+	
+	public void save() {
 		
-		log("Saved data for player: " + this.name);
+		try {
+		
+			if(Files.notExists(this.file))
+				
+				Files.createFile(this.file);
+			
+			final BufferedWriter writer = Files.newBufferedWriter(this.file);
+			
+			writer.write(BlackFlag.getInstance().getJson().serializeObject(this));
+			writer.flush();
+			writer.close();
+			
+			log("Saved data for player: " + this.name);
+			
+		}catch (IOException e) {
+			e.printStackTrace();
+		}
 		
 	}
 

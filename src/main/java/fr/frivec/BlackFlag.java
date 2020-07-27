@@ -5,6 +5,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 import org.bukkit.World;
+import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -12,6 +13,7 @@ import fr.frivec.api.json.GsonManager;
 import fr.frivec.plugin.commands.DevCommand;
 import fr.frivec.plugin.jail.Jail;
 import fr.frivec.plugin.listeners.player.PlayerJoinListener;
+import fr.frivec.plugin.player.BFPlayer;
 
 public class BlackFlag extends JavaPlugin {
 	
@@ -88,6 +90,31 @@ public class BlackFlag extends JavaPlugin {
 	private void registerListener(final Listener listener) {
 		
 		this.getServer().getPluginManager().registerEvents(listener, this);
+		
+	}
+	
+	public static BFPlayer getPlayer(final Player player) {
+		
+		for(BFPlayer players : BFPlayer.players)
+			
+			if(players.getName().equals(player.getName()))
+				
+				return players;
+		
+		BFPlayer bfPlayer = BFPlayer.loadPlayer(player);
+		
+		if(bfPlayer != null)
+			
+			return bfPlayer;
+		
+		else {
+			
+			bfPlayer = new BFPlayer(player);
+			bfPlayer.save();
+			
+			return bfPlayer;
+			
+		}
 		
 	}
 	
