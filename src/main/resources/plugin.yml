@@ -1,0 +1,7 @@
+name: BlackFlag
+version: 1.0
+author: Frivec
+main: fr.frivec.BlackFlag
+commands:
+  dev:
+    description: Dev Command
