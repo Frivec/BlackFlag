@@ -21,6 +21,14 @@ public class JailCommand implements CommandExecutor, TabExecutor {
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String msg, String[] args) {
 		
+		if(sender instanceof Player && !((Player) sender).hasPermission("blackflag.jailcommand")) {
+			
+			sender.sendMessage("§cVous n'avez pas la permission de faire ceci.");
+			
+			return false;
+			
+		}
+		
 		if(args.length >= 3) {
 			
 			final String targetName = args[0], jailName = args[1], objectiveID = args[2];
@@ -109,9 +117,69 @@ public class JailCommand implements CommandExecutor, TabExecutor {
 	@Override
 	public List<String> onTabComplete(CommandSender sender, Command cmd, String msg, String[] args) {
 		
-		if(args.length == 2) {
+		final List<String> list = new ArrayList<>();
+		
+		if(sender instanceof Player && !((Player) sender).hasPermission("blackflag.jailcommand")) {
 			
-			final List<String> list = new ArrayList<>();
+			switch (args.length) {
+			
+			case 1:
+				
+				list.add("Vous");
+				
+				break;
+				
+			case 2:
+				
+				list.add("n'avez");
+				
+				break;
+				
+			case 3:
+				
+				list.add("pas");
+				
+				break;
+				
+			case 4:
+				
+				list.add("le");
+				
+				break;
+				
+			case 5:
+				
+				list.add("droit");
+				
+				break;
+				
+			case 6:
+				
+				list.add("de");
+				
+				break;
+				
+			case 7:
+				
+				list.add("faire");
+				
+				break;
+				
+			case 8:
+				
+				list.add("ça.");
+				
+				break;
+
+			default:
+				break;
+			}
+			
+			return list;
+			
+		}
+		
+		if(args.length == 2) {
 			
 			for(Jail jail : Jail.jails)
 			
@@ -119,6 +187,14 @@ public class JailCommand implements CommandExecutor, TabExecutor {
 			
 			return list;
 				
+		}else if(args.length == 3) {
+			
+			for(JailObjective objective : JailObjective.values())
+				
+				list.add(objective.getLevel() + "");
+			
+			return list;
+			
 		}
 		
 		return null;

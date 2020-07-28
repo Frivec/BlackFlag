@@ -18,6 +18,14 @@ public class SetJailCommand implements CommandExecutor {
 			
 			final Player player = (Player) sender;
 			
+			if(!player.hasPermission("blackflag.setjail")) {
+				
+				player.sendMessage("§cErreur. Vous n'avez pas la permission de faire ceci.");
+				
+				return true;
+				
+			}
+			
 			if(args.length > 0) {
 				
 				final String name = args[0];

@@ -2,12 +2,14 @@ package fr.frivec.plugin.commands.jail;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
+import org.bukkit.entity.Player;
 
 import fr.frivec.plugin.jail.Jail;
 
@@ -15,6 +17,14 @@ public class RemoveJailCommand implements CommandExecutor, TabExecutor {
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String msg, String[] args) {
+		
+		if(sender instanceof Player && !((Player) sender).hasPermission("blackflag.removejail")) {
+			
+			sender.sendMessage("§cVous n'avez pas la permission de faire ceci.");
+			
+			return false;
+			
+		}
 		
 		if(args.length < 0) {
 			
@@ -62,6 +72,10 @@ public class RemoveJailCommand implements CommandExecutor, TabExecutor {
 	
 	@Override
 	public List<String> onTabComplete(CommandSender sender, Command cmd, String msg, String[] args) {
+		
+		if(sender instanceof Player && !((Player) sender).hasPermission("blackflag.removejail"))
+			
+			return Arrays.asList("Non.");
 		
 		if(args.length >= 0) {
 			
