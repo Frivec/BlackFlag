@@ -3,6 +3,7 @@ version: 1.0
 author: Frivec
 main: fr.frivec.BlackFlag
 api-version: 1.15
+website: https://twitter.com/Frivec_
 commands:
   dev:
     description: Dev Command
