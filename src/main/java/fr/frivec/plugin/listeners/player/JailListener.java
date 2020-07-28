@@ -24,7 +24,7 @@ public class JailListener implements Listener {
 		final Player player = event.getPlayer();
 		final Location to = event.getTo();
 		
-		if(BlackFlag.getPlayer(player).isInJail()) {
+		if(BlackFlag.getPlayer(player.getName()).isInJail()) {
 		
 			if(to.getWorld() != BlackFlag.getInstance().getJailWorld()) {
 				
@@ -45,7 +45,7 @@ public class JailListener implements Listener {
 	public void onBreakBlock(final BlockBreakEvent event) {
 		
 		final Player player = event.getPlayer();
-		final BFPlayer bfPlayer = BlackFlag.getPlayer(player);
+		final BFPlayer bfPlayer = BlackFlag.getPlayer(player.getName());
 		final Block block = event.getBlock();
 		final Material type = block.getType();
 		
@@ -102,7 +102,7 @@ public class JailListener implements Listener {
 			
 			final Player player = (Player) event.getEntity();	
 			
-			if(BlackFlag.getPlayer(player).isInJail())
+			if(BlackFlag.getPlayer(player.getName()).isInJail())
 				
 				player.setFoodLevel(20);
 			

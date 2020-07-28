@@ -18,7 +18,7 @@ public class PlayerJoinListener implements Listener {
 	public void onJoin(final PlayerJoinEvent event) {
 		
 		final Player player = event.getPlayer();
-		final BFPlayer bfPlayer = BlackFlag.getPlayer(player);
+		final BFPlayer bfPlayer = BlackFlag.getPlayer(player.getName());
 		final boolean inJail = bfPlayer.isInJail(), wasInJail = bfPlayer.wasInjail();
 		
 		if(inJail && !wasInJail) {
@@ -49,7 +49,7 @@ public class PlayerJoinListener implements Listener {
 		
 		final Player player = event.getPlayer();
 		
-		BlackFlag.getPlayer(player).save();
+		BlackFlag.getPlayer(player.getName()).save();
 		
 	}
 

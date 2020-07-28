@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
+import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.WorldCreator;
 import org.bukkit.entity.Player;
@@ -141,11 +142,11 @@ public class BlackFlag extends JavaPlugin {
 	 * @param player - Player: Bukkit player you want to get the BFPlayer instance
 	 * @return BFPlayer instance for the player
 	 */
-	public static BFPlayer getPlayer(final Player player) {
+	public static BFPlayer getPlayer(final String player) {
 		
 		for(BFPlayer players : BFPlayer.players)
 			
-			if(players.getName().equals(player.getName()))
+			if(players.getName().equals(player))
 				
 				return players;
 		

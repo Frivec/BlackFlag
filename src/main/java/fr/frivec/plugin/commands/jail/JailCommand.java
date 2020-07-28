@@ -1,9 +1,12 @@
 package fr.frivec.plugin.commands.jail;
 
+import java.util.List;
+
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
 
 import fr.frivec.BlackFlag;
@@ -12,7 +15,7 @@ import fr.frivec.plugin.jail.Jail;
 import fr.frivec.plugin.jail.JailObjective;
 import fr.frivec.plugin.player.BFPlayer;
 
-public class JailCommand implements CommandExecutor {
+public class JailCommand implements CommandExecutor, TabExecutor {
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String msg, String[] args) {
@@ -21,7 +24,7 @@ public class JailCommand implements CommandExecutor {
 			
 			final String targetName = args[0], jailName = args[1], objectiveID = args[2];
 			final Player target = Bukkit.getPlayer(targetName);
-			final BFPlayer bfPlayer = BlackFlag.getPlayer(target);
+			final BFPlayer bfPlayer = BlackFlag.getPlayer(targetName);
 			final Jail jail = Jail.get(jailName);
 			
 			int level = -1;
@@ -99,6 +102,14 @@ public class JailCommand implements CommandExecutor {
 		}
 		
 		return false;
+	}
+	
+	@Override
+	public List<String> onTabComplete(CommandSender sender, Command cmd, String msg, String[] args) {
+		
+		
+		
+		return null;
 	}
 
 }

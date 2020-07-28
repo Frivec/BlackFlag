@@ -1,5 +1,7 @@
 package fr.frivec.plugin.player;
 
+import static fr.frivec.BlackFlag.log;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -10,13 +12,9 @@ import java.nio.file.Paths;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.bukkit.entity.Player;
-
 import fr.frivec.BlackFlag;
 import fr.frivec.plugin.jail.Jail;
 import fr.frivec.plugin.jail.JailObjective;
-
-import static fr.frivec.BlackFlag.log;
 
 public class BFPlayer {
 	
@@ -31,9 +29,9 @@ public class BFPlayer {
 	
 	private transient Path file;
 	
-	public BFPlayer(final Player player) {
+	public BFPlayer(final String player) {
 		
-		this.name = player.getName();
+		this.name = player;
 		this.inJail = false;
 		this.wasInjail = false;
 		
@@ -41,7 +39,7 @@ public class BFPlayer {
 		
 	}
 	
-	public static BFPlayer loadPlayer(final Player player) {
+	public static BFPlayer loadPlayer(final String player) {
 		
 		try (final DirectoryStream<Path> stream = Files.newDirectoryStream(folder)) {
 			
@@ -53,7 +51,7 @@ public class BFPlayer {
 					
 					fileName = fileName.replace(".json", "");
 					
-					if(fileName.equals(player.getName())) {
+					if(fileName.equals(player)) {
 						
 						final BufferedReader reader = Files.newBufferedReader(files);
 						final StringBuilder json = new StringBuilder();
