@@ -1,5 +1,6 @@
 package fr.frivec.plugin.commands.jail;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.Bukkit;
@@ -58,6 +59,7 @@ public class JailCommand implements CommandExecutor, TabExecutor {
 					bfPlayer.setInJail(true);
 					bfPlayer.setObjective(objective);
 					bfPlayer.setJail(jail);
+					bfPlayer.setBlocksBreaked(0);
 					
 					sender.sendMessage("§aLe joueur §6" + targetName + " §aa bien été placé dans la prison §6" + jailName + "§a.");
 					
@@ -107,7 +109,17 @@ public class JailCommand implements CommandExecutor, TabExecutor {
 	@Override
 	public List<String> onTabComplete(CommandSender sender, Command cmd, String msg, String[] args) {
 		
-		
+		if(args.length == 2) {
+			
+			final List<String> list = new ArrayList<>();
+			
+			for(Jail jail : Jail.jails)
+			
+				list.add(jail.getId());
+			
+			return list;
+				
+		}
 		
 		return null;
 	}
