@@ -72,6 +72,10 @@ public class JailListener implements Listener {
 			bfPlayer.setInJail(false);
 			bfPlayer.setWasInjail(false);
 			
+			bfPlayer.setBlocksBreaked(0);
+			
+			bfPlayer.save();
+			
 			player.sendMessage("§aBonne nouvelle ! Vous avez purgé votre peine !");
 			player.sendMessage("§6Vous êtes à présent libre ! Téléportation dans le monde d'origine.");
 			player.teleport(new Location(Bukkit.getWorld("world"), 0, 120, 0));
