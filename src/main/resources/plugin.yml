@@ -2,6 +2,13 @@ name: BlackFlag
 version: 1.0
 author: Frivec
 main: fr.frivec.BlackFlag
+api-version: 1.15
 commands:
   dev:
     description: Dev Command
+  setjail:
+    description: Set a new jail
+  removejail:
+    description: Remove an existant jail
+  jail:
+    description: Teleport a player into or out a jail

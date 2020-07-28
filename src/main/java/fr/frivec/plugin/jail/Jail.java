@@ -21,16 +21,19 @@ public class Jail {
 	public transient static Set<Jail> jails = new HashSet<>();
 	private transient static Path folder = Paths.get(BlackFlag.getInstance().getDataFolder() + "/Jails/");
 	
-	private int id;
+	private String id;
 	private double x, y, z;
+	private float yaw, pitch;
 	private transient Path file;
 	
-	public Jail(final Location location, final int id) {
+	public Jail(final Location location, final String id) {
 		
 		this.id = id;
 		this.x = location.getX();
 		this.y = location.getY();
 		this.z = location.getZ();
+		this.yaw = location.getYaw();
+		this.pitch = location.getPitch();
 		
 		this.file = Paths.get(folder + "/" + this.id + ".json");
 		
@@ -39,6 +42,8 @@ public class Jail {
 	}
 	
 	public void save() throws IOException {
+		
+		this.file = Paths.get(folder + "/" + this.id + ".json");
 		
 		final String json = BlackFlag.getInstance().getJson().serializeObject(this);
 		
@@ -58,7 +63,21 @@ public class Jail {
 	
 	public void delete() throws IOException {
 		
+		this.file = Paths.get(folder + "/" + this.id + ".json");
+		
 		Files.delete(this.file);
+		
+	}
+	
+	public static Jail get(final String id) {
+		
+		for(Jail jail : jails)
+			
+			if(jail.getId().equalsIgnoreCase(id))
+				
+				return jail;
+		
+		return null;
 		
 	}
 	
@@ -97,17 +116,33 @@ public class Jail {
 		
 	}
 	
-	public int getId() {
+	public String getId() {
 		return id;
 	}
 	
-	public void setId(int id) {
+	public void setId(String id) {
 		this.id = id;
+	}
+	
+	public float getYaw() {
+		return yaw;
+	}
+	
+	public void setYaw(float yaw) {
+		this.yaw = yaw;
+	}
+	
+	public float getPitch() {
+		return pitch;
+	}
+	
+	public void setPitch(float pitch) {
+		this.pitch = pitch;
 	}
 	
 	public Location getLocation() {
 		
-		return new Location(BlackFlag.getInstance().getJailWorld(), x, y, z);
+		return new Location(BlackFlag.getInstance().getJailWorld(), x, y, z, yaw, pitch);
 		
 	}
 
