@@ -24,5 +24,17 @@ public enum JailObjective {
 	public int getLevel() {
 		return level;
 	}
+	
+	public static JailObjective get(final int level) {
+		
+		for(JailObjective objective : JailObjective.values())
+			
+			if(objective.getLevel() == level)
+				
+				return objective;
+		
+		return null;
+		
+	}
 
 }

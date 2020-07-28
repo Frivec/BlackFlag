@@ -22,15 +22,11 @@ public class SetJailCommand implements CommandExecutor {
 				
 				final String name = args[0];
 				
-				for(Jail jails : Jail.jails) {
+				if(Jail.get(name) != null) {
 					
-					if(jails.getId().equalsIgnoreCase(name)) {
+					player.sendMessage("§cErreur. Cette prison existe déjà. Veuillez choisir un nouveau nom.");
 						
-						player.sendMessage("§cErreur. Cette prison existe déjà. Veuillez choisir un nouveau nom.");
-						
-						return true;
-						
-					}
+					return true;
 						
 				}
 				

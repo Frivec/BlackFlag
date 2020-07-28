@@ -67,7 +67,11 @@ public class BFPlayer {
 						reader.close();
 						stream.close();
 						
-						return (BFPlayer) BlackFlag.getInstance().getJson().deSeralizeJson(json.toString(), BFPlayer.class);
+						final BFPlayer bfPlayer = (BFPlayer) BlackFlag.getInstance().getJson().deSeralizeJson(json.toString(), BFPlayer.class);
+						
+						players.add(bfPlayer);
+						
+						return bfPlayer;
 								
 					}
 					
@@ -84,6 +88,8 @@ public class BFPlayer {
 	}
 	
 	public void save() {
+		
+		this.file = Paths.get(folder + "/" + this.name + ".json");
 		
 		try {
 		

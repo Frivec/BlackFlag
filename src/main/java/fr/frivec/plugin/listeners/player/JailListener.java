@@ -49,11 +49,11 @@ public class JailListener implements Listener {
 		final Block block = event.getBlock();
 		final Material type = block.getType();
 		
-		if(!bfPlayer.isInJail())
+		if(!bfPlayer.isInJail() || bfPlayer.getJail() == null)
 			
 			return;
 		
-		if(type.equals(Material.OBSIDIAN)) {
+		if(!type.equals(Material.OBSIDIAN)) {
 			
 			event.setCancelled(true);
 		
@@ -64,10 +64,13 @@ public class JailListener implements Listener {
 		event.setDropItems(false);
 		
 		bfPlayer.setBlocksBreaked(bfPlayer.getBlocksBreaked() + 1);
-		
-		new ActionBar("§aVous avez miné §b" + bfPlayer.getBlocksBreaked() + "§7/§b" + bfPlayer.getObjective().getNumberOfStack(), 20, 10, 20).send(player);
+				
+		new ActionBar("§aVous avez miné §b" + bfPlayer.getBlocksBreaked() + "§7/§b" + bfPlayer.getObjective().getNumberOfStack() * 64, 20, 10, 20).send(player);
 		
 		if(bfPlayer.getBlocksBreaked() >= (bfPlayer.getObjective().getNumberOfStack() * 64)) {
+			
+			bfPlayer.setInJail(false);
+			bfPlayer.setWasInjail(false);
 			
 			player.sendMessage("§aBonne nouvelle ! Vous avez purgé votre peine !");
 			player.sendMessage("§6Vous êtes à présent libre ! Téléportation dans le monde d'origine.");

@@ -25,13 +25,7 @@ public class RemoveJailCommand implements CommandExecutor, TabExecutor {
 		}else {
 			
 			final String name = args[0];
-			Jail jail = null;
-			
-			for(Jail jails : Jail.jails)
-			
-				if(jails.getId().equalsIgnoreCase(name))
-					
-					jail = jails;
+			Jail jail = Jail.get(name);
 			
 			if(jail != null) {
 				
