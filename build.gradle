@@ -1,5 +1,5 @@
 group 'fr.frivec'
-version '1.0'
+version '1.0.1'
 description 'Jail plugin for Black Flag server'
 
 apply plugin: 'java'
