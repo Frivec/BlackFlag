@@ -1,7 +1,5 @@
 package fr.frivec.plugin.player;
 
-import static fr.frivec.BlackFlag.log;
-
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -100,9 +98,7 @@ public class BFPlayer {
 			writer.write(BlackFlag.getInstance().getJson().serializeObject(this));
 			writer.flush();
 			writer.close();
-			
-			log("Saved data for player: " + this.name);
-			
+						
 		}catch (IOException e) {
 			e.printStackTrace();
 		}
