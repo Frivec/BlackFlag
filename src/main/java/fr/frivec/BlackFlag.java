@@ -10,7 +10,9 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import fr.frivec.api.json.GsonManager;
+import fr.frivec.api.menus.MenuManager;
 import fr.frivec.plugin.commands.DevCommand;
+import fr.frivec.plugin.commands.casier.CasierCommand;
 import fr.frivec.plugin.commands.jail.JailCommand;
 import fr.frivec.plugin.commands.jail.RemoveJailCommand;
 import fr.frivec.plugin.commands.jail.SetJailCommand;
@@ -18,6 +20,7 @@ import fr.frivec.plugin.jail.Jail;
 import fr.frivec.plugin.listeners.player.JailListener;
 import fr.frivec.plugin.listeners.player.PlayerJoinListener;
 import fr.frivec.plugin.player.BFPlayer;
+import me.leoko.advancedban.manager.PunishmentManager;
 
 public class BlackFlag extends JavaPlugin {
 	
@@ -26,13 +29,25 @@ public class BlackFlag extends JavaPlugin {
 	private World jailWorld;
 	
 	private GsonManager json;
+	private MenuManager manager;
+	
+	private PunishmentManager punishmentManager;
 	
 	@Override
 	public void onEnable() {
 		
 		instance = this;
 		
+		if(this.getServer().getPluginManager().getPlugin("AdvancedBan") == null || !this.getServer().getPluginManager().isPluginEnabled("AdvancedBan")) {
+		
+			log("§4Erreur. AdvancedBan n'a pas été trouvé. Veuillez l'installer sur le serveur pour exécuter ce plugin.");
+			this.getServer().getPluginManager().disablePlugin(this);
+			
+		}	
+		
 		this.json = new GsonManager();
+		this.manager = new MenuManager(this);
+		this.punishmentManager = PunishmentManager.get();
 		
 		saveDefaultConfig();
 		
@@ -71,6 +86,7 @@ public class BlackFlag extends JavaPlugin {
 		this.getCommand("setjail").setExecutor(new SetJailCommand());
 		this.getCommand("removejail").setExecutor(new RemoveJailCommand());
 		this.getCommand("jail").setExecutor(new JailCommand());
+		this.getCommand("casier").setExecutor(new CasierCommand());
 		
 		//Listeners
 		registerListener(new PlayerJoinListener());
@@ -92,6 +108,20 @@ public class BlackFlag extends JavaPlugin {
 	 * Getters
 	 * 
 	 */
+	
+	/**
+	 * 
+	 * Get the PunishmentManager instance from the plugin AdvancedBan
+	 * 
+	 * @return PunishmentManager instance
+	 */
+	public PunishmentManager getPunishmentManager() {
+		return punishmentManager;
+	}
+	
+	public MenuManager getManager() {
+		return manager;
+	}
 	
 	/**
 	 * Get the Gson instance

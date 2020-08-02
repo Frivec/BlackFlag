@@ -4,6 +4,7 @@ author: Frivec
 main: fr.frivec.BlackFlag
 api-version: 1.15
 website: https://twitter.com/Frivec_
+depend: [AdvancedBan]
 commands:
   dev:
     description: Dev Command
@@ -13,3 +14,5 @@ commands:
     description: Remove an existant jail
   jail:
     description: Teleport a player into or out a jail
+  casier:
+    description: Open the summary of a player's sanctions.
