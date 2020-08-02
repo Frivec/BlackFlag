@@ -50,4 +50,4 @@ jar {
 
 }
 
-jar.setArchiveName("StaffHelp.jar")
+jar.setArchiveName("BlackFlag.jar")

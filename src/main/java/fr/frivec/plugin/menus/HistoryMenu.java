@@ -182,8 +182,8 @@ public class HistoryMenu extends AbstractMenu {
 				
 				this.inventory.setItem(inventorySlot, new ItemCreator(sanction.getIcon(), 1).setDisplayName("§a" + format.format(start)).
 						setLores(Arrays.asList("§5Raison: §b" + sanctions.getReason(),
-												"§5Fin: §b" + format.format(end),
-												"§5Permanent: §b" + (sanctions.getEnd() == -1 ? "Oui" : "Non"))).build());
+												"§5Fin: §b" + (sanctions.getEnd() != -1 ? format.format(end) : "Aucune"),
+												"§5Permanent: §b" + (sanctions.getEnd() != -1 ? "Non" : sanctions.getPunishmentType().equals(PunishmentType.KICK) ? "Non" : "Oui"))).build());
 				
 			}
 			
