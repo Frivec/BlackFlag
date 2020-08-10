@@ -15,6 +15,7 @@ import fr.frivec.BlackFlag;
 import fr.frivec.api.items.ItemCreator;
 import fr.frivec.api.menus.AbstractMenu;
 import fr.frivec.plugin.jail.log.JailLog;
+import fr.frivec.plugin.player.BFPlayer;
 import fr.frivec.plugin.punishment.ComparableSanction;
 import fr.frivec.plugin.punishment.DateComparator;
 import fr.frivec.plugin.punishment.Sanctions;
@@ -59,7 +60,7 @@ public class HistoryMenu extends AbstractMenu {
 			
 				this.addItem(glassPane, i, "NOTHING");
 		
-		int slot = 19;
+		int slot = 20;
 		
 		for(Sanctions sanctions : Sanctions.values()) {
 			
@@ -78,10 +79,10 @@ public class HistoryMenu extends AbstractMenu {
 					
 					numberOfSanction += getPunishments(uuid, types).size();
 			
-			this.addItem(new ItemCreator(sanctions.getIcon(), 1).setDisplayName("§c" + name).setLores(numberOfSanction == 0 ? Arrays.asList("§cAucun(e) " + name.toLowerCase() + " n'a été trouvé") : Arrays.asList("§a" + numberOfSanction + " " + name.toLowerCase() + " trouvé(e)(s).")).build()
+			this.addItem(new ItemCreator(sanctions.getIcon(), 1).setDisplayName("§c" + name).setLores(numberOfSanction == 0 ? Arrays.asList("§cAucun(e) " + name.toLowerCase() + " n'a été trouvé") : Arrays.asList("§a" + numberOfSanction + " " + name.toLowerCase() + " trouvé(s).")).build()
 					, slot, "OPEN_" + name.toUpperCase());
 			
-			slot += 2;
+			slot++;
 			
 		}
 		
@@ -170,8 +171,10 @@ public class HistoryMenu extends AbstractMenu {
 				
 				for(int i = 0; i < 35; i++) {
 					
+					final BFPlayer bfPlayer = BlackFlag.getPlayer(player.getName());
+					
 					final int inventorySlot = i + 27 * this.page;
-					final ArrayList<JailLog> logs = BlackFlag.getPlayer(player.getName()).getJailLog();
+					final ArrayList<JailLog> logs = bfPlayer.getJailLog();
 					final SimpleDateFormat format = new SimpleDateFormat("dd/MM/yy à HH:mm");
 					
 					if(inventorySlot >= logs.size())
@@ -182,7 +185,9 @@ public class HistoryMenu extends AbstractMenu {
 					
 					this.inventory.setItem(inventorySlot, new ItemCreator(Material.IRON_BARS, 1).setDisplayName("§a" + format.format(jailLog.getStart()))
 																			.setLores(Arrays.asList("§5Prison: §b" + jailLog.getJailName(),
-																									"§5Niveau de peine: §b" + jailLog.getJailObjective().getLevel())).build());
+																									"§5Niveau de peine: §b" + jailLog.getJailObjective().getLevel(),
+																									"§5Terminé: " + (jailLog.isFinished() ? "§aOui" : "§cNon"),
+																									"§5Progression: " + (jailLog.isFinished() ? "§cAucune" : "§b" + bfPlayer.getBlocksBreaked() + "§7/" + jailLog.getJailObjective().getNumberOfStack() * 64))).build());
 					
 				}
 				

@@ -10,12 +10,14 @@ public class JailLog {
 	private String jailName;
 	private JailObjective jailObjective;
 	private Date start;
+	private boolean finished;
 	
 	public JailLog(final Jail jail, final JailObjective jailObjective, final Date start) {
 		
 		this.jailName = jail.getId();
 		this.jailObjective = jailObjective;
 		this.start = start;
+		this.finished = false;
 		
 	}
 
@@ -41,6 +43,14 @@ public class JailLog {
 
 	public void setStart(Date start) {
 		this.start = start;
+	}
+	
+	public void setFinished(boolean finished) {
+		this.finished = finished;
+	}
+	
+	public boolean isFinished() {
+		return finished;
 	}
 
 }

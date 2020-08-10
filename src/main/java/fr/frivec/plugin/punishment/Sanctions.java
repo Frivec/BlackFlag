@@ -13,7 +13,7 @@ public enum Sanctions {
 	MUTE("Mute", Arrays.asList(PunishmentType.MUTE, PunishmentType.TEMP_MUTE), Material.PAPER),
 	KICK("Kick", Arrays.asList(PunishmentType.KICK), Material.WOODEN_SWORD),
 	WARN("Warn", Arrays.asList(PunishmentType.WARNING, PunishmentType.TEMP_WARNING), Material.REDSTONE_TORCH),
-	JAILS("Prison", null, Material.IRON_BARS);
+	JAILS("Emprisonnement", null, Material.IRON_BARS);
 	
 	private String name;
 	private List<PunishmentType> types;

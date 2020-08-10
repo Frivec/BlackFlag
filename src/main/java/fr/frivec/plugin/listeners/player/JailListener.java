@@ -74,6 +74,8 @@ public class JailListener implements Listener {
 			
 			bfPlayer.setBlocksBreaked(0);
 			
+			bfPlayer.getJailLog().get(bfPlayer.getJailLog().size() - 1).setFinished(true);
+			
 			bfPlayer.save();
 			
 			player.sendMessage("§aBonne nouvelle ! Vous avez purgé votre peine !");
