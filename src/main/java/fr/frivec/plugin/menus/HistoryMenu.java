@@ -14,6 +14,7 @@ import org.bukkit.inventory.ItemStack;
 import fr.frivec.BlackFlag;
 import fr.frivec.api.items.ItemCreator;
 import fr.frivec.api.menus.AbstractMenu;
+import fr.frivec.plugin.jail.log.JailLog;
 import fr.frivec.plugin.punishment.ComparableSanction;
 import fr.frivec.plugin.punishment.DateComparator;
 import fr.frivec.plugin.punishment.Sanctions;
@@ -65,11 +66,19 @@ public class HistoryMenu extends AbstractMenu {
 			final String name = sanctions.getName();
 			int numberOfSanction = 0;
 			
-			for(PunishmentType types : sanctions.getTypes())
+			if(sanctions.getTypes() == null)
 				
-				numberOfSanction += getPunishments(uuid, types).size();
+				//JailHistory
+				numberOfSanction = BlackFlag.getPlayer(player.getName()).getJailLog().size();
+				
+			else
+				
+				//Sanctions from AdvancedBan
+				for(PunishmentType types : sanctions.getTypes())
+					
+					numberOfSanction += getPunishments(uuid, types).size();
 			
-			this.addItem(new ItemCreator(sanctions.getIcon(), 1).setDisplayName("§c" + name).setLores(numberOfSanction == 0 ? Arrays.asList("§cAucun " + name.toLowerCase() + " n'a été trouvé") : Arrays.asList("§a" + numberOfSanction + " " + name.toLowerCase() + " trouvé(s).")).build()
+			this.addItem(new ItemCreator(sanctions.getIcon(), 1).setDisplayName("§c" + name).setLores(numberOfSanction == 0 ? Arrays.asList("§cAucun(e) " + name.toLowerCase() + " n'a été trouvé") : Arrays.asList("§a" + numberOfSanction + " " + name.toLowerCase() + " trouvé(e)(s).")).build()
 					, slot, "OPEN_" + name.toUpperCase());
 			
 			slot += 2;
@@ -153,47 +162,75 @@ public class HistoryMenu extends AbstractMenu {
 			
 		}
 		
-		if(sanction != null) {
+		if(this.sanction != null) {
 			
-			final List<ComparableSanction> comparableSanctions = new ArrayList<>();
-			
-			for(PunishmentType punishmentType : sanction.getTypes()) {
+			if(this.sanction.equals(Sanctions.JAILS)) {
 				
-				for(Punishment punishment : getPunishments(this.uuidManager.getUUID(this.targetName), punishmentType)) {
+				//Jail history
+				
+				for(int i = 0; i < 35; i++) {
 					
-					this.punishments.add(punishment);		
-					comparableSanctions.add(new ComparableSanction(punishment.getName(), punishment.getReason(), punishment.getStart(), punishment.getEnd(), punishmentType));
+					final int inventorySlot = i + 27 * this.page;
+					final ArrayList<JailLog> logs = BlackFlag.getPlayer(player.getName()).getJailLog();
+					final SimpleDateFormat format = new SimpleDateFormat("dd/MM/yy à HH:mm");
+					
+					if(inventorySlot >= logs.size())
+						
+						break;
+					
+					final JailLog jailLog = logs.get(inventorySlot);
+					
+					this.inventory.setItem(inventorySlot, new ItemCreator(Material.IRON_BARS, 1).setDisplayName("§a" + format.format(jailLog.getStart()))
+																			.setLores(Arrays.asList("§5Prison: §b" + jailLog.getJailName(),
+																									"§5Niveau de peine: §b" + jailLog.getJailObjective().getLevel())).build());
 					
 				}
 				
-			}
-			
-			comparableSanctions.sort(new DateComparator());
-			
-			for(int i = 0; i < 35; i++) {
+			}else {
 				
-				final int inventorySlot = i + 27 * this.page;
+				//Sanctions from AdvancedBan
 				
-				if(inventorySlot >= comparableSanctions.size())
+				final List<ComparableSanction> comparableSanctions = new ArrayList<>();
+				
+				for(PunishmentType punishmentType : sanction.getTypes()) {
 					
-					break;
-				
-				final ComparableSanction sanctions = comparableSanctions.get(inventorySlot);
-				
-				if(sanctions == null)
+					for(Punishment punishment : getPunishments(this.uuidManager.getUUID(this.targetName), punishmentType)) {
+						
+						this.punishments.add(punishment);		
+						comparableSanctions.add(new ComparableSanction(punishment.getName(), punishment.getReason(), punishment.getStart(), punishment.getEnd(), punishmentType));
+						
+					}
 					
-					break;
+				}
 				
-				final Date start = new Date(), end = new Date();
-				final SimpleDateFormat format = new SimpleDateFormat("dd/MM/yy à HH:mm");
-								
-				start.setTime(sanctions.getStart());
-				end.setTime(sanctions.getEnd());
+				comparableSanctions.sort(new DateComparator());
 				
-				this.inventory.setItem(inventorySlot, new ItemCreator(sanction.getIcon(), 1).setDisplayName("§a" + format.format(start)).
-						setLores(Arrays.asList("§5Raison: §b" + sanctions.getReason(),
-												"§5Fin: §b" + (sanctions.getEnd() != -1 ? format.format(end) : "Aucune"),
-												"§5Permanent: §b" + (sanctions.getEnd() != -1 ? "Non" : sanctions.getPunishmentType().equals(PunishmentType.KICK) ? "Non" : "Oui"))).build());
+				for(int i = 0; i < 35; i++) {
+					
+					final int inventorySlot = i + 27 * this.page;
+					
+					if(inventorySlot >= comparableSanctions.size())
+						
+						break;
+					
+					final ComparableSanction sanctions = comparableSanctions.get(inventorySlot);
+					
+					if(sanctions == null)
+						
+						break;
+					
+					final Date start = new Date(), end = new Date();
+					final SimpleDateFormat format = new SimpleDateFormat("dd/MM/yy à HH:mm");
+									
+					start.setTime(sanctions.getStart());
+					end.setTime(sanctions.getEnd());
+					
+					this.inventory.setItem(inventorySlot, new ItemCreator(sanction.getIcon(), 1).setDisplayName("§a" + format.format(start)).
+							setLores(Arrays.asList("§5Raison: §b" + sanctions.getReason(),
+													"§5Fin: §b" + (sanctions.getEnd() != -1 ? format.format(end) : "Aucune"),
+													"§5Permanent: §b" + (sanctions.getEnd() != -1 ? "Non" : sanctions.getPunishmentType().equals(PunishmentType.KICK) ? "Non" : "Oui"))).build());
+					
+				}
 				
 			}
 			

@@ -7,6 +7,7 @@ import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -26,7 +27,7 @@ public class BFPlayer {
 	private int blocksBreaked;
 	private JailObjective objective;
 	
-	private HashSet<JailLog> jailHistory;
+	private ArrayList<JailLog> jailHistory;
 	
 	private transient Path file;
 	
@@ -36,7 +37,7 @@ public class BFPlayer {
 		this.inJail = false;
 		this.wasInjail = false;
 		
-		this.jailHistory = new HashSet<>();
+		this.jailHistory = new ArrayList<>();
 		
 		this.file = Paths.get(folder + "/" + this.name + ".json");
 		
@@ -110,7 +111,7 @@ public class BFPlayer {
 		
 	}
 	
-	public HashSet<JailLog> getJailLog() {
+	public ArrayList<JailLog> getJailLog() {
 		return jailHistory;
 	}
 
