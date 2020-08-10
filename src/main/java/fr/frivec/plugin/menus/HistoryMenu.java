@@ -79,7 +79,7 @@ public class HistoryMenu extends AbstractMenu {
 					
 					numberOfSanction += getPunishments(uuid, types).size();
 			
-			this.addItem(new ItemCreator(sanctions.getIcon(), 1).setDisplayName("§c" + name).setLores(numberOfSanction == 0 ? Arrays.asList("§cAucun(e) " + name.toLowerCase() + " n'a été trouvé") : Arrays.asList("§a" + numberOfSanction + " " + name.toLowerCase() + " trouvé(s).")).build()
+			this.addItem(new ItemCreator(sanctions.getIcon(), 1).setDisplayName("§c" + name).setLores(numberOfSanction == 0 ? Arrays.asList("§cAucun(e) " + name.toLowerCase() + " n'a été trouvé") : Arrays.asList("§a" + numberOfSanction + " " + name.toLowerCase() + (numberOfSanction > 1 ? "s trouvés" : " trouvé") + ".")).build()
 					, slot, "OPEN_" + name.toUpperCase());
 			
 			slot++;
