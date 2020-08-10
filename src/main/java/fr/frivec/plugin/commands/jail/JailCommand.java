@@ -1,6 +1,8 @@
 package fr.frivec.plugin.commands.jail;
 
+import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.bukkit.Bukkit;
@@ -14,6 +16,7 @@ import fr.frivec.BlackFlag;
 import fr.frivec.api.packets.Title;
 import fr.frivec.plugin.jail.Jail;
 import fr.frivec.plugin.jail.JailObjective;
+import fr.frivec.plugin.jail.log.JailLog;
 import fr.frivec.plugin.player.BFPlayer;
 
 public class JailCommand implements CommandExecutor, TabExecutor {
@@ -75,6 +78,7 @@ public class JailCommand implements CommandExecutor, TabExecutor {
 						
 						target.teleport(jail.getLocation());
 						bfPlayer.setWasInjail(true);
+						bfPlayer.getJailLog().add(new JailLog(jail, objective, Date.from(Instant.now())));
 						
 						sender.sendMessage("§bLe joueur " + targetName + "§b a été téléporté dans sa prison.");
 						

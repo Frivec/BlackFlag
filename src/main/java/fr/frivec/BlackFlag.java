@@ -98,7 +98,9 @@ public class BlackFlag extends JavaPlugin {
 	@Override
 	public void onDisable() {
 		
-		
+		for(BFPlayer bfPlayer : BFPlayer.players)
+			
+			bfPlayer.save();
 		
 		super.onDisable();
 	}
