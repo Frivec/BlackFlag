@@ -13,6 +13,7 @@ import java.util.Set;
 import fr.frivec.BlackFlag;
 import fr.frivec.plugin.jail.Jail;
 import fr.frivec.plugin.jail.JailObjective;
+import fr.frivec.plugin.jail.log.JailLog;
 
 public class BFPlayer {
 	
@@ -25,6 +26,8 @@ public class BFPlayer {
 	private int blocksBreaked;
 	private JailObjective objective;
 	
+	private HashSet<JailLog> jailHistory;
+	
 	private transient Path file;
 	
 	public BFPlayer(final String player) {
@@ -32,6 +35,8 @@ public class BFPlayer {
 		this.name = player;
 		this.inJail = false;
 		this.wasInjail = false;
+		
+		this.jailHistory = new HashSet<>();
 		
 		this.file = Paths.get(folder + "/" + this.name + ".json");
 		
@@ -103,6 +108,10 @@ public class BFPlayer {
 			e.printStackTrace();
 		}
 		
+	}
+	
+	public HashSet<JailLog> getJailLog() {
+		return jailHistory;
 	}
 
 	public String getName() {
