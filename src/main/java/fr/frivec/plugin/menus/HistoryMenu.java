@@ -29,7 +29,7 @@ public class HistoryMenu extends AbstractMenu {
 	private PunishmentManager punishmentManager;
 	private UUIDManager uuidManager;
 	
-	private List<Punishment> punishments;
+	private List<Punishment> punishments = new ArrayList<>();
 	
 	private int page = 0;
 	
@@ -133,6 +133,7 @@ public class HistoryMenu extends AbstractMenu {
 	private void drawSanctions(final Player player, final int slot, final boolean useCurrentSanction) {
 		
 		this.inventory.clear();
+		this.punishments.clear();
 		
 		if(!useCurrentSanction) {
 			
@@ -222,7 +223,7 @@ public class HistoryMenu extends AbstractMenu {
 		
 		int i = 1;
 		
-		while(punishments.size() < i * 36)
+		while(punishments.size() > i * 36)
 			
 			i++;
 		
