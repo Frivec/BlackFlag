@@ -29,6 +29,8 @@ public class HistoryMenu extends AbstractMenu {
 	private PunishmentManager punishmentManager;
 	private UUIDManager uuidManager;
 	
+	private List<Punishment> punishments;
+	
 	private int page = 0;
 	
 	private Sanctions sanction = null;
@@ -94,6 +96,14 @@ public class HistoryMenu extends AbstractMenu {
 			
 		}else if(this.actions.get(slot).equals("NEXT")) {
 			
+			if(this.page + 1 > getNumberOfPage(this.punishments)) {
+				
+				player.sendMessage("§cVous êtes à la dernière page disponible.");
+				
+				return;
+				
+			}
+			
 			this.page++;
 			
 			drawSanctions(player, slot, true);
@@ -144,14 +154,13 @@ public class HistoryMenu extends AbstractMenu {
 		
 		if(sanction != null) {
 			
-			final List<Punishment> punishments = new ArrayList<>();
 			final List<ComparableSanction> comparableSanctions = new ArrayList<>();
 			
 			for(PunishmentType punishmentType : sanction.getTypes()) {
 				
 				for(Punishment punishment : getPunishments(this.uuidManager.getUUID(this.targetName), punishmentType)) {
 					
-					punishments.add(punishment);		
+					this.punishments.add(punishment);		
 					comparableSanctions.add(new ComparableSanction(punishment.getName(), punishment.getReason(), punishment.getStart(), punishment.getEnd(), punishmentType));
 					
 				}
@@ -189,7 +198,7 @@ public class HistoryMenu extends AbstractMenu {
 			
 			final ItemStack next = new ItemCreator(Material.PLAYER_HEAD, 1).skullByUrl("https://textures.minecraft.net/texture/2a3b8f681daad8bf436cae8da3fe8131f62a162ab81af639c3e0644aa6abac2f").setDisplayName("§aPage suivante").build(),
 						previous = new ItemCreator(Material.PLAYER_HEAD, 1).skullByUrl("https://textures.minecraft.net/texture/8652e2b936ca8026bd28651d7c9f2819d2e923697734d18dfdb13550f8fdad5f").setDisplayName("§aPage précédente").build(),
-						info = new ItemCreator(Material.TORCH, 1).setDisplayName("§3Page " + (this.page + 1)).build();
+						info = new ItemCreator(Material.TORCH, 1).setDisplayName("§3Page " + (this.page + 1) + "/" + getNumberOfPage(this.punishments)).build();
 			
 			this.addItem(next, 41, "NEXT");
 			this.addItem(previous, 39, "PREVIOUS");
@@ -206,6 +215,18 @@ public class HistoryMenu extends AbstractMenu {
 			return;
 			
 		}
+		
+	}
+	
+	private int getNumberOfPage(final List<Punishment> punishments) {
+		
+		int i = 1;
+		
+		while(punishments.size() < i * 36)
+			
+			i++;
+		
+		return i;
 		
 	}
 	
